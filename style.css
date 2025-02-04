@@ -1,0 +1,323 @@
+@font-face {
+  font-family: "Creepy";
+  src: url("https://raw.githubusercontent.com/WebDevSimplified/Mix-Or-Match/master/Assets/Fonts/Creepy.woff?raw=true") format("woff"), url("https://raw.githubusercontent.com/WebDevSimplified/Mix-Or-Match/master/Assets/Fonts/Creepy.woff2?raw=true") format("woff2")
+}
+
+@font-face {
+  font-family: "Lunacy";
+  src: url("https://raw.githubusercontent.com/WebDevSimplified/Mix-Or-Match/master/Assets/Fonts/Lunacy.woff") format("woff"), url("https://raw.githubusercontent.com/WebDevSimplified/Mix-Or-Match/master/Assets/Fonts/Lunacy.woff2") format("woff2")
+}
+
+* {
+  box-sizing: 
+  
+  border-box;
+}
+
+
+
+html {
+  min-height: 100vh;
+  cursor: url("images/game/fornt/2.cur"), auto;
+
+  /*cursor: url("https://raw.githubusercontent.com/WebDevSimplified/Mix-Or-Match/master/Assets/Cursors/Ghost.cur"), auto;*/
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#bg-video {
+  position: absolute; /* เปลี่ยนจาก fixed เป็น absolute */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2130px;
+  object-fit: cover;
+  z-index: -1;
+}
+
+/*body {
+  margin: 0;
+  background: radial-gradient(#496fd3, #09033b);
+}*/
+
+.page-title {
+  color: #7739eb;
+  font-family: "Mali", cursive;
+  font-weight: normal;
+  text-align: center;
+  font-size: 4em;
+}
+
+.game-info-container {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+}
+
+.game-info {
+  font-family: "Mali", cursive;
+  color: #c09ce7;
+  font-size: 2em;
+}
+
+.game-container {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  grid-gap: 10px;
+  margin: 50px;
+  justify-content: center;
+  perspective: 500px;
+}
+
+.card-game {
+  position: relative;
+  height: 175px;
+  width: 125px;
+}
+
+.card-game:hover {
+  cursor: url("images/game/fornt/2.cur") , auto;
+  /*cursor: url("https://raw.githubusercontent.com/WebDevSimplified/Mix-Or-Match/master/Assets/Cursors/GhostHover.cur"), auto;*/
+}
+
+.card-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  backface-visibility: hidden;
+  border-radius: 12px;
+  border-width: 1px;
+  border-style: solid;
+  transition: transform 500ms ease-in-out;
+}
+
+.card-game.visible .card-back {
+  transform: rotateY(-180deg);
+}
+
+.card-game.visible .card-front {
+  transform: rotateY(0)
+}
+
+.card-game.matched .card-value {
+  animation: dance 1.5s linear infinite 500ms;
+}
+
+.overlay-text {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  color: #7739eb;
+  font-family: "Mali", cursive;
+  font-size: 4em !important; /* ปรับขนาดตัวอักษร */
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); 
+}
+
+.overlay-text-small {
+  font-size: .3em;
+}
+
+.overlay-text.visible {
+  display: flex;
+  flex-direction: column;
+  animation: overlay-grow 500ms forwards;
+}
+
+@keyframes overlay-grow {
+  from {
+    background-color: rgba(0, 0, 0, 0);
+    font-size: 0;
+  }
+  to {
+    background-color: rgba(0, 0, 0, .8);
+    font-size: 10em;
+  }
+}
+
+@keyframes dance {
+  0%, 100%  {
+    transform: rotate(0);
+  }
+  25% {
+    transform: rotate(-30deg);
+  }
+  75% {
+    transform: rotate(30deg);
+  }
+}
+
+/*.card-back {
+  background-color: #0c0249;
+  border-color: #070459;
+}*/
+
+.card-back {
+  position: absolute;
+  height: 175px;
+  width: 125px;
+  overflow: hidden;
+  border: 1px solid #070459;
+  border-radius: 10px;
+  transform: rotateY(0deg); 
+}
+
+.bg-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1; /* ทำให้วิดีโออยู่ข้างหลัง */
+}
+
+
+
+.card-front {
+  position: relative;
+  background-color: #af87ee;
+  border-color: #333;
+  transform: rotateY(180deg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-value {
+  width: 110%;
+  height: auto;
+  transition: transform 100ms ease-in-out;
+  transform: scale(.9);
+  display: block;
+  position: relative; /* ทำให้แน่ใจว่าภาพนี้อยู่เป็นพื้นหลัง */
+  z-index: 1; /* กำหนดให้อยู่ข้างล่าง */
+  border-radius: 10px;
+}
+
+.card-front:hover .card-value {
+  transform: scale(1);
+}
+
+.cob-web {
+  position: absolute;
+  width: 65px;
+  height: 65px;
+  transition: width 100ms ease-in-out, height 100ms ease-in-out;
+  z-index: 2; /* ทำให้รูปแมงมุมอยู่ด้านบน */
+  pointer-events: none; /* ป้องกันการคลิกติดรูปนี้ */
+}
+
+.cob-web1 {
+  position: absolute;
+  width: 88px;
+  height: 82px;
+  transition: width 100ms ease-in-out, height 100ms ease-in-out;
+  z-index: 2; /* ทำให้รูปแมงมุมอยู่ด้านบน */
+  pointer-events: none; /* ป้องกันการคลิกติดรูปนี้ */
+}
+
+.card-face:hover .cob-web {
+  width: 60px;
+  height: 60px;
+}
+
+.card-face:hover .cob-web1 {
+  width: 80px;
+  height: 78px;
+}
+
+.cob-web-top-left {
+  transform: rotate(0deg);
+  top: -5px;
+  left: 0;
+}
+
+.cob-web-top-right {
+  top: -8px;
+  right: 0;
+}
+
+.cob-web-bottom-left {
+  transform: rotate(0deg);
+  bottom: -1px;
+  left: 0;
+}
+
+.cob-web-bottom-right {
+  transform: rotate(2deg);
+  bottom: -16px;
+  right: -4px;
+}
+
+.cob-web-bottom-right1 {
+  transform: rotate(2deg);
+  bottom: -2px;
+  right: -4px;
+}
+
+.spider {
+  /*align-self: flex-start;*/
+  width: 110px;
+  transform: translateY(4px);
+  transition: transform 100ms ease-in-out;
+}
+
+.card-back:hover .spider {
+  transform: translateY(0)
+}
+
+@media (max-width: 600px) {
+  .game-container {
+    grid-template-columns: repeat(2, auto);
+  }
+
+  .game-info-container {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+#pause-btn {
+  background-color: #a665f0; /* สีฟ้าเข้ม */
+  color: white; /* ข้อความสีขาว */
+  font-size: 16px; /* ขนาดตัวอักษร */
+  padding: 6px 20px; /* เว้นช่องขอบปุ่ม */
+  border: none; /* ไม่มีขอบ */
+  border-radius: 17px; /* มุมโค้ง */
+  cursor: pointer; /* แสดง cursor เป็นมือ */
+  transition: background-color 0.3s ease; /* เปลี่ยนสีเมื่อ hover */
+  position: relative; /* ใช้ position absolute เพื่อจัดปุ่ม */
+  top: 2px; /* ระยะห่างจากด้านบน */
+  right: 6px; /* ระยะห่างจากด้านขวา */
+}
+
+#pause-btn:hover {
+  background-color: #a665fc; /* สีฟ้าเข้มขึ้นเมื่อ hover */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
